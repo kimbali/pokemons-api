@@ -1,14 +1,19 @@
 require('dotenv').config();
 
 const express = require("express");
-const cors = require('cors')
-
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const { logic, LogicError } = require("./logic/logic");
-const { name, version} = require('./package.json')
-const { PORT } = process.env;
+const { name, version} = require('./package.json');
+const ofirebase = require("./firebase/setData");
 
+const { PORT } = process.env;
 const app = express();
+
 app.use(cors())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
+
 
 app.get('/catalog', function (req, res) {
     logic.createCatalog()
@@ -19,6 +24,13 @@ app.get('/catalog', function (req, res) {
         })
 });
 
+app.post("/hola", function (req, res) {
+    ofirebase.saveData(req.body, function( err, data){
+        res.send(data)
+    })
+})
+
 app.listen(PORT, () => {
     console.log(`${name} ${version} up and running on port ${PORT}`);
 });
+
