@@ -15,8 +15,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 
 
-app.get('/catalog', function (req, res) {
-    logic.createCatalog()
+app.get('/catalog/:page?/:lang?', function (req, res) {
+    const { params: { page, lang }} = req;
+    logic.createCatalog({ page, lang })
         .then(pokemons => res.status(200).json({ status: 'OK', pokemons }))
         .catch(err => {
             const { message } = err
