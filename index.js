@@ -36,6 +36,27 @@ app.get('/pokemon/:id', function (req, res) {
         })
 });
 
+app.get('/types', function (req, res) {
+    logic.createTypesList()
+        .then(typesList => {
+            res.status(200).json({ status: 'OK', typesList })})
+        .catch(err => {
+            const { message } = err
+            res.status(err instanceof LogicError ? 400 : 500).json({ message })
+        })
+});
+
+app.get('/type/:type/:lang', function (req, res) {
+    const { params: { type, lang }} = req;
+    logic.findPokemonsByType({ type, lang })
+        .then(pokemons => {
+            res.status(200).json({ status: 'OK', pokemons })})
+        .catch(err => {
+            const { message } = err
+            res.status(err instanceof LogicError ? 400 : 500).json({ message })
+        })
+});
+
 app.post("/hola", function (req, res) {
     ofirebase.saveData(req.body, function( err, data){
         res.send(data)

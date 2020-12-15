@@ -2,6 +2,7 @@
 
 const { logic } = require('./logic')
 const { expect } = require('chai')
+const dataMoked = require("../dataMoc")
 
 describe('logic', () => {
     const filteredSinglePokemon = {
@@ -37,18 +38,18 @@ describe('logic', () => {
 
     describe('Create a filtered catalog', () => {
 
-        true && it('should return an empty array without params', () => {
+        false && it('should return an empty array without params', () => {
             const result = logic.createCatalog();
             expect(result).to.be.an('array');
             expect(result).to.have.lengthOf(0);
         })
 
-        true && it('should throw new error if language is not found', () => {
+        false && it('should throw new error if language is not found', () => {
             expect( function(){ logic.createCatalog({ page: 0, lang: 'Swahili'})})
                 .throw('Invalid language');
         })
 
-        true && it('should retrive a list of 30 pokemons', () =>
+        false && it('should retrive a list of 30 pokemons', () =>
             logic.createCatalog({ page: 0, lang: 'GB'})
                 .then(pokemons => {
                     expect(pokemons).to.be.an('array');
@@ -56,7 +57,7 @@ describe('logic', () => {
                 })
         )
 
-        true && it('should retrive the first page', () =>
+        false && it('should retrive the first page', () =>
             logic.createCatalog({ page: 0, lang: 'GB'})
                 .then(pokemons => {
                     expect(pokemons[0].id).to.equal(1);
@@ -64,7 +65,7 @@ describe('logic', () => {
                 })
         )
 
-        true && it('should the second page', () =>
+        false && it('should the second page', () =>
             logic.createCatalog({ page: 1, lang: 'GB'})
                 .then(pokemons => {
                     expect(pokemons[0].id).to.equal(31);
@@ -72,7 +73,7 @@ describe('logic', () => {
                 })
         )
 
-        true && it('Each pokemon of the list should have only id, name and type', () =>
+        false && it('Each pokemon of the list should have only id, name and type', () =>
             logic.createCatalog({ page: 0, lang: 'GB'})
                 .then(pokemons => {
                     const singlePokemon = pokemons[0];
@@ -81,28 +82,28 @@ describe('logic', () => {
                 })
         )
 
-        true && it('should retrive a pokemons list with english language', () =>
+        false && it('should retrive a pokemons list with english language', () =>
             logic.createCatalog({ page: 0, lang: 'GB'})
                 .then(pokemons => {
                     expect(pokemons[0].name).to.equal('Bulbasaur')
                 })
         )
 
-        true && it('should retrive a pokemons list with french language', () =>
+        false && it('should retrive a pokemons list with french language', () =>
             logic.createCatalog({ page: 0, lang: 'FR'})
                 .then(pokemons => {
                     expect(pokemons[0].name).to.equal('Bulbizarre')
                 })
         )
 
-        true && it('should retrive a pokemons list with chinese language', () =>
+        false && it('should retrive a pokemons list with chinese language', () =>
             logic.createCatalog({ page: 0, lang: 'CN'})
                 .then(pokemons => {
                     expect(pokemons[0].name).to.equal('妙蛙种子')
                 })
         )
 
-        true && it('should retrive a pokemons list with japanese language', () =>
+        false && it('should retrive a pokemons list with japanese language', () =>
             logic.createCatalog({ page: 0, lang: 'JP'})
                 .then(pokemons => {
                     expect(pokemons[0].name).to.equal('フシギダネ')
@@ -112,7 +113,7 @@ describe('logic', () => {
     
     describe('Retrieve a single pokemon', () => {
 
-        true && it('should retrieve a complete single pokemon', ()  => 
+        false && it('should retrieve a complete single pokemon', ()  => 
             logic.retrievePokemonById(1)
                 .then(pokemon => {
                     expect(pokemon).to.exist
@@ -122,14 +123,41 @@ describe('logic', () => {
                 })
         )
 
-        true && it('should throw new error without id as a param', () => {
+        false && it('should throw new error without id as a param', () => {
             expect( function(){ logic.retrievePokemonById()})
                 .throw('Invalid id');
         })
 
-        true && it('should throw new error with invalid param', () => {
+        false && it('should throw new error with invalid param', () => {
             expect( function(){ logic.retrievePokemonById('banana')})
                 .throw('Invalid id');
         })
+    })
+
+    describe('Create types list', () => {
+
+        true && it('should create a list with no duplicated types', () => 
+            logic.createTypesList()
+                .then(list => {
+                    expect(list).to.be.an('array');
+                    expect(list).to.have.length(18);
+
+                    const duplicatedTypes = list.filter((item, index) => list.indexOf(item) !== index);
+                    expect(duplicatedTypes).to.be.an('array');
+                    expect(duplicatedTypes).to.have.length(0);
+                })
+        )
+    })
+
+    describe('Find pokemons with same type', () => {
+
+        true && it('Find pokemons with same type', () => 
+            logic.findPokemonsByType({type: 'Steel', lang: 'GB'})
+                .then(list => {
+                    expect(list).to.be.an('array');
+                    expect(list).to.have.length(49);
+                    expect(list[1].type).to.contain('Steel')
+                })
+        )
     })
 })

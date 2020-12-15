@@ -2,6 +2,7 @@ const pokemons = require("../dataMoc")
 const languages = require("../config")
 
 const logic = {
+
     createCatalog(params) {
         if (!params) return [];
         const { page, lang } = params;
@@ -29,6 +30,39 @@ const logic = {
             .then(() => {
                 const [ foundedPokemon ] = pokemons.filter(one => one.id == id);
                 return foundedPokemon;
+            })
+    },
+
+    createTypesList() {
+        return Promise.resolve()
+            .then(() => {
+                let pokemonTypes = [];
+                pokemons.forEach(pokemon => {
+                    pokemonTypes = pokemonTypes.concat(pokemon.type);
+                })
+
+                pokemonTypes = [...new Set(pokemonTypes)];
+                return pokemonTypes.sort();
+            })
+    },
+
+    findPokemonsByType({ type, lang }) {
+        return Promise.resolve()
+            .then(() => {
+                let pokemonsFilted = [];
+
+                if(!type) return [];
+                
+                pokemons.forEach(pokemon => {
+                    return pokemon.type.forEach(element => {
+                        if(element === type) {
+                            const { id, name, type } = pokemon;
+                            return pokemonsFilted.push({ id, name: name[languages[lang]], type});
+                        } 
+                    }) 
+                })
+                
+                return pokemonsFilted;
             })
     }
 }
