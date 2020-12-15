@@ -4,7 +4,8 @@
   "description": "Api rest test for Haufe",
   "main": "index.js",
   "scripts": {
-    "test": "mocha logic"
+    "test": "mocha logic",
+    "start": "node . 8080"
   },
   "author": "@kimbali",
   "license": "MIT",
