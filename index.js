@@ -25,6 +25,17 @@ app.get('/catalog/:page?/:lang?', function (req, res) {
         })
 });
 
+app.get('/pokemon/:id', function (req, res) {
+    const { params: { id }} = req;
+    logic.retrievePokemonById(id)
+        .then(pokemon => {
+            res.status(200).json({ status: 'OK', pokemon })})
+        .catch(err => {
+            const { message } = err
+            res.status(err instanceof LogicError ? 400 : 500).json({ message })
+        })
+});
+
 app.post("/hola", function (req, res) {
     ofirebase.saveData(req.body, function( err, data){
         res.send(data)

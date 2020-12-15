@@ -8,7 +8,7 @@ const logic = {
 
         if(!languages[lang]) throw new Error('Invalid language')
 
-        const size = 20;
+        const size = 30;
         const startingAt = page * size;
 
         return Promise.resolve()
@@ -20,6 +20,15 @@ const logic = {
                     chunk.push(pokemon);
                 }
                 return chunk;
+            })
+    },
+
+    retrievePokemonById(id) {
+        if(!id || isNaN(id)) throw new Error('Invalid id');
+        return Promise.resolve()
+            .then(() => {
+                const [ foundedPokemon ] = pokemons.filter(one => one.id == id);
+                return foundedPokemon;
             })
     }
 }

@@ -4,6 +4,36 @@ const { logic } = require('./logic')
 const { expect } = require('chai')
 
 describe('logic', () => {
+    const filteredSinglePokemon = {
+        "id": 1,
+        "name": "Bulbasaur",
+        "type": [
+          "Grass",
+          "Poison"
+        ]
+      };
+
+    const completeSinglePokemon = {
+        "id": 1,
+        "name": {
+          "english": "Bulbasaur",
+          "japanese": "フシギダネ",
+          "chinese": "妙蛙种子",
+          "french": "Bulbizarre"
+        },
+        "type": [
+          "Grass",
+          "Poison"
+        ],
+        "base": {
+          "HP": 45,
+          "Attack": 49,
+          "Defense": 49,
+          "Sp. Attack": 65,
+          "Sp. Defense": 65,
+          "Speed": 45
+        }
+      };
 
     describe('Create a filtered catalog', () => {
 
@@ -22,7 +52,7 @@ describe('logic', () => {
             logic.createCatalog({ page: 0, lang: 'GB'})
                 .then(pokemons => {
                     expect(pokemons).to.be.an('array');
-                    expect(pokemons).to.have.lengthOf(20);
+                    expect(pokemons).to.have.lengthOf(30);
                 })
         )
 
@@ -30,29 +60,24 @@ describe('logic', () => {
             logic.createCatalog({ page: 0, lang: 'GB'})
                 .then(pokemons => {
                     expect(pokemons[0].id).to.equal(1);
-                    expect(pokemons[pokemons.length - 1].id).to.equal(20);
+                    expect(pokemons[pokemons.length - 1].id).to.equal(30);
                 })
         )
 
         true && it('should the second page', () =>
             logic.createCatalog({ page: 1, lang: 'GB'})
                 .then(pokemons => {
-                    expect(pokemons[0].id).to.equal(21);
-                    expect(pokemons[pokemons.length - 1].id).to.equal(40);
+                    expect(pokemons[0].id).to.equal(31);
+                    expect(pokemons[pokemons.length - 1].id).to.equal(60);
                 })
         )
 
         true && it('Each pokemon of the list should have only id, name and type', () =>
             logic.createCatalog({ page: 0, lang: 'GB'})
                 .then(pokemons => {
-                    const singlePokemonProp = Object.keys(pokemons[0]);
-                    const expectedProperties = [ 'id', 'name', 'type']
-
-                    expect(singlePokemonProp).to.be.an('array');
-                    expect(singlePokemonProp).to.have.lengthOf(3);
-                    expect(singlePokemonProp[0]).to.equal(expectedProperties[0]);
-                    expect(singlePokemonProp[1]).to.equal(expectedProperties[1]);
-                    expect(singlePokemonProp[2]).to.equal(expectedProperties[2]);
+                    const singlePokemon = pokemons[0];
+                    expect(singlePokemon).to.not.have.property('base');
+                    expect(singlePokemon).to.deep.equal(filteredSinglePokemon);
                 })
         )
 
@@ -83,5 +108,28 @@ describe('logic', () => {
                     expect(pokemons[0].name).to.equal('フシギダネ')
                 })
         )
+    })
+    
+    describe('Retrieve a single pokemon', () => {
+
+        true && it('should retrieve a complete single pokemon', ()  => 
+            logic.retrievePokemonById(1)
+                .then(pokemon => {
+                    expect(pokemon).to.exist
+                    expect(pokemon).to.be.an('object')
+                    expect(pokemon).to.have.property('base');
+                    expect(pokemon).to.deep.equal(completeSinglePokemon);
+                })
+        )
+
+        true && it('should throw new error without id as a param', () => {
+            expect( function(){ logic.retrievePokemonById()})
+                .throw('Invalid id');
+        })
+
+        true && it('should throw new error with invalid param', () => {
+            expect( function(){ logic.retrievePokemonById('banana')})
+                .throw('Invalid id');
+        })
     })
 })
