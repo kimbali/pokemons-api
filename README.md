@@ -25,7 +25,7 @@
 
 ## Local script
 
-`nodex index.js`
+`node index.js`
 Turns on the server in local. In order to see details in react APP, url should be changed in [logic.js app file](https://github.com/kimbali/pokemons-app/blob/main/src/logic/logic.js)
 Open [http://localhost:8080](http://localhost:8080).
 
