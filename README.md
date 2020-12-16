@@ -33,3 +33,38 @@ Open [http://localhost:8080](http://localhost:8080).
 
 Is deployed in Heroku [SEE WEB PAGE](https://pokemon-catalog.netlify.app)
 APP is desployed in Netlify. 
+
+
+
+## TODO LIST
+
+- [ ] Create a mongoDB data base and remove moked data. [see github project with authentication logic for two diferent type of users](https://github.com/kimbali/hostess1.0/tree/main/hostess-api)
+
+- [ ] Handle authentication with JWT and create a new context that consums this endpoint. 
+
+- [ ] Create a file to handle all routes and use express Router method.
+
+
+## Author
+[Kim Garcia Anton](https://github.com/kimbali)
+Javascript Programmer 👩‍💻 
+
+
+<img alt="Magic mashroom"
+    src="https://github.com/kimbali/pokemons-app/blob/main/src/images/pokedex.png?raw=true"
+    height="100px" /> 
+<img alt="Magic mashroom"
+    src="https://github.com/kimbali/pokemons-app/blob/main/src/images/pokedex.png?raw=true"
+    height="100px" />
+<img alt="Magic mashroom"
+    src="https://github.com/kimbali/pokemons-app/blob/main/src/images/pokedex.png?raw=true"
+    height="100px" />
+<img alt="Magic mashroom"
+    src="https://github.com/kimbali/pokemons-app/blob/main/src/images/pokedex.png?raw=true"
+    height="100px" />
+<img alt="Magic mashroom"
+    src="https://github.com/kimbali/pokemons-app/blob/main/src/images/pokedex.png?raw=true"
+    height="100px" />
+
+
+
