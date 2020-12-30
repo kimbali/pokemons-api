@@ -1,24 +1,27 @@
 const pokemons = require("../dataMoc")
-const languages = require("../config")
+const { DEFAULT_SIZE, LANGUAGES } = require("../config.json");
 
 const logic = {
 
     createCatalog(params) {
         if (!params) return [];
-        const { page, lang } = params;
+        const { page, lang, size = DEFAULT_SIZE } = params;
 
-        if(!languages[lang]) throw new Error('Invalid language')
+        if(!LANGUAGES[lang]) throw new Error('Invalid language')
 
-        const size = 30;
-        const startingAt = page * size;
+        const startingAt = page * (size * 1);
 
         return Promise.resolve()
             .then(() => {
                 const chunk = [];
-                for (let i = startingAt; i < (startingAt + size); i++) {
-                    const { id, name, type } = pokemons[i];
-                    const pokemon = { id, name: name[languages[lang]], type};
-                    chunk.push(pokemon);
+                for (let i = startingAt; i < (startingAt + size * 1); i++) {
+                    if (pokemons[i]) {
+                        const { id, name, type } = pokemons[i];
+                        const pokemon = { id, name: name[LANGUAGES[lang]], type};
+                        chunk.push(pokemon);
+                    } else {
+                        break;
+                    }
                 }
                 return chunk;
             })
@@ -57,7 +60,7 @@ const logic = {
                     return pokemon.type.forEach(element => {
                         if(element === type) {
                             const { id, name, type } = pokemon;
-                            return pokemonsFilted.push({ id, name: name[languages[lang]], type});
+                            return pokemonsFilted.push({ id, name: name[LANGUAGES[lang]], type});
                         } 
                     }) 
                 })

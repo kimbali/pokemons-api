@@ -1,6 +1,9 @@
 {
-    "GB": "english",
-    "JP": "japanese",
-    "CN": "chinese",
-    "FR": "french"
+    "LANGUAGES": {
+        "GB": "english",
+        "JP": "japanese",
+        "CN": "chinese",
+        "FR": "french"
+    },
+    "DEFAULT_SIZE": 30
 }
